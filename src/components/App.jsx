@@ -1,12 +1,12 @@
 import React, { lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { Layout } from './Layout';
+import { Layout } from './layout/Layout';
 
-const HomePage = lazy(() => import('../pages/HomePage'));
-const MoviesPage = lazy(() => import('../pages/MoviesPage'));
-const MovieDetails = lazy(() => import('../pages/MovieDetails'));
-const Cast = lazy(() => import('./Cast'));
-const Reviews = lazy(() => import('./Reviews')); 
+const HomePage = lazy(() => import('../pages/homePage/HomePage'));
+const MoviesPage = lazy(() => import('../pages/moviesPage/MoviesPage'));
+const MovieDetails = lazy(() => import('../pages/movieDetails/MovieDetails'));
+const Cast = lazy(() => import('./cast/Cast'));
+const Reviews = lazy(() => import('./reviews/Reviews')); 
 
 export const App = () => {
   return (
@@ -22,12 +22,4 @@ export const App = () => {
       </Routes>
   );
 };
-// style={{
-//   height: '100vh',
-//   display: 'flex',
-//   justifyContent: 'center',
-//   alignItems: 'center',
-//   fontSize: 40,
-//   color: '#010101'
-// }}
 

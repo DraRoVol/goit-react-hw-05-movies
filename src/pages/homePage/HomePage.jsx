@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import cssModule from './HomePage.module.css';
 
 const HomePage = () => {
   const [movieName, setMovieName] = useState([]);
@@ -26,7 +27,7 @@ const HomePage = () => {
   return (
     <div>
       <h1>Trending today</h1>
-      <ul>
+      <ul className={cssModule.list}>
         {movieName.map(e => (
           <li key={e[0]}>
             <Link to={`movie/${e[0]}`} state={{ from: location}}>{e[1]}</Link>

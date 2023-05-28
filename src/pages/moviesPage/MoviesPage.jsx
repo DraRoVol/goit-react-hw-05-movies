@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, Link, useLocation } from 'react-router-dom';
+import cssModule from './MoviesPage.module.css';
 
 const MoviesPage = () => {
   const [movies, setMovies] = useState([]);
@@ -48,7 +49,7 @@ const MoviesPage = () => {
     <div>
       <div>
         <input type="text" value={query} onChange={(e) => setQuery(e.target.value)} />
-        <button onClick={handleSearch}>Search</button>
+        <button className={cssModule.button} onClick={handleSearch}>Search</button>
       </div>
       {isSearching && <p>Loading...</p>}
       {movies.length > 0 && (
