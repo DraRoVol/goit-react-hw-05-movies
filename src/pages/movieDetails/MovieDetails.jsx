@@ -30,13 +30,14 @@ const MovieDetails = () => {
     };
     fetchMovieDetails();
   }, [movieId]);
+  console.log(movieInfo)
   return (
     <div>
       <Link to={backLinkLocationRef.current}>Go back</Link>
       <div>
         <img src={`https://image.tmdb.org/t/p/w500${movieInfo.backdrop_path}`} alt="poster" />
         <h1>{movieInfo.original_title}</h1>
-        <p>User Score:{movieInfo.popularity}%</p>
+        <p>User Score:{(movieInfo.vote_average*10).toFixed(0)}%</p>
         <h2>Overview</h2>
         <p>{movieInfo.overview}</p>
         <h3>Genres</h3>
