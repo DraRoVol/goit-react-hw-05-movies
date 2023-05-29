@@ -30,7 +30,6 @@ const MovieDetails = () => {
     };
     fetchMovieDetails();
   }, [movieId]);
-  console.log(movieInfo)
   return (
     <div>
       <Link to={backLinkLocationRef.current}>Go back</Link>

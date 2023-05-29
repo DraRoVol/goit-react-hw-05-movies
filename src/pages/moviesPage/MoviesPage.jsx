@@ -7,7 +7,7 @@ const MoviesPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [isSearching, setIsSearching] = useState(false);
   const location = useLocation();
-  const query = searchParams.get('query') ?? '';
+  const [searchQuery, setSearchQuery] = useState(searchParams.get('query') ?? '');
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
@@ -22,7 +22,7 @@ const MoviesPage = () => {
 
       try {
         const response = await fetch(
-          `https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=false&language=en-US&page=1`,
+          `https://api.themoviedb.org/3/search/movie?query=${searchQuery}&include_adult=false&language=en-US&page=1`,
           options
         );
         const data = await response.json();
@@ -38,29 +38,36 @@ const MoviesPage = () => {
     if (isSearching) {
       fetchMovieDetails();
     }
-  }, [searchParams, query, isSearching]);
+  }, [searchParams, searchQuery, isSearching]);
 
-  const updateQueryString = e => {
-    if (e.target.value === '') {
-      return setSearchParams ({})
+  useEffect(() => {
+    const queryParam = searchParams.get('query');
+    if (queryParam) {
+      setSearchQuery(queryParam);
+      setIsSearching(true);
     }
-    setSearchParams({query: e.target.value})
-  }
+  }, [searchParams]);
 
-  const handleSearch = () => {
-        if (query === '') {
-      return setSearchParams ({})
+  const updateQueryString = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+
+    if (searchQuery === '') {
+      setSearchParams({});
+    } else {
+      setSearchParams({ query: searchQuery });
+      setIsSearching(true);
     }
-    setSearchParams({ query })
-    setIsSearching(true);
-  }
-    
+  };
   return (
     <div>
-      <div className={cssModule.item}>
-        <input className={cssModule.input} type="text" value={query} onChange={updateQueryString} />
-        <button className={cssModule.button} onClick={handleSearch}>Search</button>
-      </div>
+      <form onSubmit={handleSearch} className={cssModule.item}>
+          <input className={cssModule.input} type="text" value={searchQuery} onChange={updateQueryString} />
+          <button className={cssModule.button} type="submit">Search</button>
+      </form>
       {isSearching && <p>Loading...</p>}
       {movies.length > 0 && (
         <ul className={cssModule.list}>
