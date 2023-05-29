@@ -5,9 +5,9 @@ import cssModule from './MoviesPage.module.css';
 const MoviesPage = () => {
   const [movies, setMovies] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
-  const [query, setQuery] = useState(searchParams.get('query') || '');
   const [isSearching, setIsSearching] = useState(false);
   const location = useLocation();
+  const query = searchParams.get('query') ?? '';
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
@@ -40,20 +40,30 @@ const MoviesPage = () => {
     }
   }, [searchParams, query, isSearching]);
 
-  const handleSearch = () => {
-    setSearchParams({ query });
-    setIsSearching(true);
-  };
+  const updateQueryString = e => {
+    if (e.target.value === '') {
+      return setSearchParams ({})
+    }
+    setSearchParams({query: e.target.value})
+  }
 
+  const handleSearch = () => {
+        if (query === '') {
+      return setSearchParams ({})
+    }
+    setSearchParams({ query })
+    setIsSearching(true);
+  }
+    
   return (
     <div>
-      <div>
-        <input type="text" value={query} onChange={(e) => setQuery(e.target.value)} />
+      <div className={cssModule.item}>
+        <input className={cssModule.input} type="text" value={query} onChange={updateQueryString} />
         <button className={cssModule.button} onClick={handleSearch}>Search</button>
       </div>
       {isSearching && <p>Loading...</p>}
       {movies.length > 0 && (
-        <ul>
+        <ul className={cssModule.list}>
           {movies.map((e) => (
             <li key={e[0]}>
               <Link to={`/movie/${e[0]}`} state={{ from: location }}>
